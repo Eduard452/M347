@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  m347-kn04a-db:
+    image: mariadb:latest
+    container_name: m347-kn04a-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpass
+    networks:
+      kn04-netz:
+        ipv4_address: 172.10.5.10
+
+  m347-kn04a-web:
+    build:
+      context: ../KN02/Teil2/web
+      dockerfile: Dockerfile
+    container_name: m347-kn04a-web
+    ports:
+      - "8080:80"
+    depends_on:
+      - m347-kn04a-db
+    networks:
+      kn04-netz:
+        ipv4_address: 172.10.5.11
+
+    environment:
+      DB_HOST: m347-kn04a-db
+      DB_NAME: testdb
+      DB_USER: root
+      DB_PASS: root
+
+
+networks:
+  kn04-netz:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.10.0.0/16
+          ip_range: 172.10.5.0/24
+          gateway: 172.10.5.254

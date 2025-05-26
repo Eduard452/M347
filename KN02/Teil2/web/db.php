@@ -6,10 +6,10 @@ Das ausgeführte Query ist: <i>select Host, User from mysql.user;</i><br /><br /
 Das Resultat: <br />
 <?php
         //database
-        $servername = "kn02b-db";
-        $username = "root";
-        $password = "root123";
-        $dbname = "mysql";
+        $servername = getenv('DB_HOST');
+        $username   = getenv('DB_USER');
+        $password   = getenv('DB_PASS');
+        $dbname     = getenv('DB_NAME');
 
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
