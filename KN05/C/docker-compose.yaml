@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  web1:
+    image: nginx
+    container_name: nginx_web1
+    volumes:
+      - type: volume
+        source: shared-data
+        target: /usr/share/nginx/html/volume
+      - type: bind
+        source: ./html
+        target: /usr/share/nginx/html/bind
+      - type: tmpfs
+        target: /usr/share/nginx/html/tmpfs
+  web2:
+    image: nginx
+    container_name: nginx_web2
+    volumes:
+      - shared-data:/usr/share/nginx/html/volume
+volumes:
+  shared-data:
